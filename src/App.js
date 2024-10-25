@@ -13,8 +13,15 @@ function App() {
           controllerRef.current=new AbortController();
           const response=await fetch(`https://jsonplaceholder.typicode.com/posts?_limit=9&_page=${pageNumber}`)
           const responseData=await response.json();
+          if(responseData.length)
+          {
           setData(prevData=>[...prevData,...responseData]);
           resolve();
+          }
+          else
+          {
+            resolve([]);
+          }
       }
       catch (e){
         console.log(

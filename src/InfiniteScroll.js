@@ -5,13 +5,16 @@ const InfiniteScroll = (props) => {
     const [pageNumber, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const observer = useRef(null);
+    const prevListData=useRef(listData);
     const lastElementObserver = useCallback((node) => {
         if (loading) return;
         if (observer.current) observer.current.disconnect();
 
         observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting) {
+            console.log(prevListData.current,listData.length)
+            if (entries[0].isIntersecting && prevListData.current?.length !== listData.length) {
                 setPage(prev => prev + 1);
+                prevListData.current=listData
             }
         })
         if (node) observer.current.observe(node)
